@@ -1,0 +1,830 @@
+﻿Build a futuristic, hackathon-quality web application called:
+
+"MARSWALK"
+Tagline: "Plan the Walk. Discover the Unknown."
+
+The core concept:
+MARSWALK is an interactive Mars mission planning platform designed for future human explorers. It integrates multiple NASA Mars science and exploration datasets into one layered map so astronauts can select a destination, plan a Marswalk route, understand terrain and environmental conditions, identify scientific targets, and choose the safest and most scientifically valuable route.
+
+IMPORTANT:
+This is NOT just a Mars information website.
+It should feel like a real mission-control tool that could help an astronaut plan and execute a Marswalk.
+
+==================================================
+1. VISUAL DESIGN
+==================================================
+
+Create a premium futuristic NASA-inspired interface.
+
+Style:
+- Dark space-themed interface
+- Deep black / charcoal background
+- Mars-red/orange accent colors
+- Subtle glowing UI elements
+- Glassmorphism panels
+- Thin technical borders
+- Clean scientific typography
+- Minimal but highly polished
+- Professional enough for a NASA hackathon presentation
+
+The interface should feel like:
+NASA mission control + futuristic spacecraft HUD + scientific GIS application.
+
+Avoid:
+- Excessive neon
+- Cartoonish graphics
+- Generic dashboard templates
+- Overly complicated UI
+- Fake NASA logos or claiming official NASA affiliation
+
+Use responsive design for:
+- Desktop
+- Laptop
+- Tablet
+- Mobile
+
+==================================================
+2. MAIN APPLICATION LAYOUT
+==================================================
+
+Create a full-screen mission planning interface.
+
+Top navigation:
+
+[MARSWALK logo]
+Mission Planner
+Explore
+Science
+Missions
+About
+
+Right side:
+Mission Status: ONLINE
+Data Status: LIVE / LATEST AVAILABLE
+Settings icon
+
+Main screen:
+
+LEFT SIDEBAR
+- Mission
+- Map Layers
+- Route Planner
+- Science Targets
+- Environmental Data
+- Previous Missions
+
+CENTER
+Large interactive Mars map
+
+RIGHT SIDEBAR
+Contextual information about selected location / route
+
+BOTTOM
+Mission summary and route statistics
+
+==================================================
+3. HERO / LANDING PAGE
+==================================================
+
+Create an impressive landing page before entering the planner.
+
+Hero headline:
+
+"THE FIRST MARSWALK STARTS WITH A MAP."
+
+Subheading:
+
+"Integrate decades of NASA Mars exploration data to plan safer routes, discover scientific opportunities, and prepare humanity for its first steps on Mars."
+
+Primary button:
+"START MISSION"
+
+Secondary button:
+"EXPLORE MARS"
+
+Hero visual:
+- Rotating Mars globe or high-quality Mars terrain visualization
+- Subtle orbital animation
+- Small satellite/rover markers
+- NASA-data-inspired scientific overlays
+
+Add a short section:
+
+"ONE PLANET. MANY MISSIONS. ONE INTEGRATED VIEW."
+
+Show cards for:
+- Terrain
+- Imagery
+- Rover Data
+- Geology
+- Environment
+- Science Targets
+
+==================================================
+4. MARS MISSION PLANNER
+==================================================
+
+After clicking START MISSION, open the main planner.
+
+The centerpiece must be a large interactive Mars map.
+
+Map functionality:
+- Zoom
+- Pan
+- Search location
+- Latitude/longitude display
+- Select location
+- Add waypoint
+- Start point
+- Destination point
+- Draw route
+- Clear route
+- Reset view
+
+Example default mission:
+
+START:
+Jezero Crater
+
+DESTINATION:
+Ancient River Delta
+
+Display a visually clear route between them.
+
+Use a realistic Mars surface/terrain basemap if available.
+
+If a real Mars map service/API is not available, create a convincing interactive prototype using a Mars texture/terrain visualization and clearly structure the code so NASA data sources can be connected later.
+
+==================================================
+5. MAP LAYERS
+==================================================
+
+Create a collapsible "MAP LAYERS" panel.
+
+Layers:
+
+☑ Mars Terrain
+☑ Elevation
+☑ Orbital Imagery
+☑ Rover Traverses
+☑ Rover Locations
+☑ Geological Features
+☑ Water/Ice Evidence
+☑ Mineral Indicators
+☑ Craters
+☑ Dust / Weather
+☑ Radiation
+☑ Science Targets
+
+Each layer should be toggleable.
+
+When a layer is activated:
+- Show visual markers/overlays on the map
+- Update the legend
+- Update the information panel
+
+Add a small LEGEND section.
+
+Example:
+
+🟠 Rover
+🔵 Water/Ice Indicator
+🟣 Science Target
+🔴 Hazard
+🟢 Recommended Route
+
+==================================================
+6. NASA MISSION DATA
+==================================================
+
+Create a "Previous Missions" section.
+
+Include representative missions such as:
+
+- Mars Reconnaissance Orbiter
+- Mars Odyssey
+- Mars Express
+- Curiosity
+- Perseverance
+- Mars Global Surveyor
+
+Show:
+Mission name
+Mission type
+Key contribution
+Relevant data
+Mission status
+
+Example:
+
+PERSEVERANCE
+
+Location:
+Jezero Crater
+
+Mission Role:
+Surface exploration and sample science
+
+Scientific Value:
+Ancient delta and potential evidence of past water activity
+
+IMPORTANT:
+Do not fabricate scientific facts.
+Use NASA/open scientific sources where possible.
+If live APIs are unavailable, label demo information as "Prototype Data" rather than presenting fabricated values as real NASA observations.
+
+==================================================
+7. ROUTE PLANNER
+==================================================
+
+Create a dedicated "MARSWALK ROUTE PLANNER".
+
+User selects:
+
+START LOCATION
+DESTINATION
+
+Optional:
+Add waypoints
+
+Then generate multiple possible routes:
+
+ROUTE A
+Shortest Path
+
+ROUTE B
+Safest Path
+
+ROUTE C
+Science Optimized
+
+For each route show:
+
+Distance
+Estimated Marswalk Time
+Elevation Change
+Terrain Difficulty
+Hazard Level
+Scientific Value
+Overall Mission Score
+
+Example:
+
+ROUTE B — RECOMMENDED
+
+Distance:
+4.8 km
+
+Estimated Time:
+3h 42m
+
+Terrain:
+Moderate
+
+Risk:
+Low
+
+Science Value:
+High
+
+Mission Score:
+87 / 100
+
+Add a button:
+
+"COMPARE ROUTES"
+
+==================================================
+8. ROUTE SCORING SYSTEM
+==================================================
+
+Create a transparent scoring model.
+
+Mission Score should combine:
+
+Safety
+Terrain Difficulty
+Distance
+Scientific Value
+Environmental Conditions
+
+Example:
+
+Mission Score =
+35% Safety
+25% Science Value
+20% Terrain
+10% Distance
+10% Environment
+
+Display the score using a clean visual indicator.
+
+Do NOT make it look like unexplained AI magic.
+
+Add:
+
+"Why this route?"
+
+Example explanation:
+
+"Route B is recommended because it avoids steep terrain, reduces hazard exposure, and passes two high-value geological targets while adding only 0.9 km to the journey."
+
+==================================================
+9. SCIENCE TARGETS
+==================================================
+
+Add "SCIENCE OPPORTUNITIES".
+
+When the astronaut approaches an interesting location, display a marker.
+
+Example:
+
+SCIENCE TARGET #07
+
+Type:
+Sedimentary Rock
+
+Scientific Interest:
+Possible evidence of ancient environmental conditions
+
+Previous Observation:
+Orbital + Rover Data
+
+Suggested Actions:
+
+📷 Capture high-resolution imagery
+🔬 Analyze surface composition
+🪨 Consider sample collection
+
+Buttons:
+"VIEW DATA"
+"ADD TO MISSION"
+
+Users should be able to add science targets to their planned route.
+
+==================================================
+10. ENVIRONMENTAL CONDITIONS
+==================================================
+
+Create an "ENVIRONMENT" panel.
+
+Display:
+
+Temperature
+Wind
+Dust
+Solar Conditions
+Radiation
+Visibility
+
+Example:
+
+TEMPERATURE
+-63°C
+
+WIND
+18 km/h
+
+DUST
+LOW
+
+RADIATION
+MODERATE
+
+IMPORTANT:
+Always display the timestamp/source of environmental information.
+
+Example:
+
+"Latest available observation:
+Sol 421 / 14:20 UTC"
+
+If real-time information is unavailable, explicitly state:
+
+"Latest available observation — not real-time."
+
+Never pretend historical data is real-time.
+
+==================================================
+11. HAZARD DETECTION
+==================================================
+
+Create a "MISSION HAZARDS" layer.
+
+Potential hazard markers:
+
+⚠ Steep Terrain
+⚠ Rocky Surface
+⚠ Dust
+⚠ High Radiation
+⚠ Low Visibility
+⚠ Difficult Traversal
+
+When the user clicks a hazard:
+
+Show:
+
+HAZARD
+Steep Terrain
+
+Severity:
+Medium
+
+Impact:
+Reduced mobility and increased EVA time
+
+Recommended Action:
+Use alternate route
+
+==================================================
+12. AI MISSION ASSISTANT
+==================================================
+
+Create a futuristic panel called:
+
+"MARS MISSION AI"
+
+Subtitle:
+
+"Ask questions about your mission."
+
+Include chat interface.
+
+Example suggested questions:
+
+"Which route is safest?"
+"What should I investigate here?"
+"Why is Route B recommended?"
+"What science targets are near my route?"
+"What are the major hazards?"
+"Summarize this mission."
+
+Example AI response:
+
+"Route B is recommended because it minimizes steep terrain and hazard exposure while passing two high-value science targets. It is approximately 0.9 km longer than the shortest route."
+
+IMPORTANT:
+The AI assistant must be designed to answer using available mission/map data.
+Do not invent NASA observations.
+If data is unavailable, say:
+
+"I don't have verified data for that location."
+
+==================================================
+13. MISSION SUMMARY
+==================================================
+
+Create a bottom "MISSION SUMMARY" bar.
+
+Show:
+
+START
+Jezero Crater
+
+DESTINATION
+Delta Region
+
+DISTANCE
+4.8 km
+
+TIME
+3h 42m
+
+RISK
+LOW
+
+SCIENCE TARGETS
+4
+
+MISSION SCORE
+87/100
+
+Button:
+
+"GENERATE MISSION BRIEF"
+
+==================================================
+14. MISSION BRIEF
+==================================================
+
+When clicked, open a beautiful mission briefing screen.
+
+Title:
+
+MARSWALK MISSION BRIEF
+
+Include:
+
+Mission Objective
+Start Point
+Destination
+Recommended Route
+Distance
+Estimated EVA Time
+Major Hazards
+Science Targets
+Environmental Conditions
+Recommended Actions
+
+Add buttons:
+
+"EXPORT BRIEF"
+"START MISSION SIMULATION"
+
+==================================================
+15. MISSION SIMULATION
+==================================================
+
+Create a visual Marswalk simulation.
+
+Show an astronaut/mission marker moving along the selected route.
+
+As the astronaut moves:
+
+- Update distance traveled
+- Update remaining distance
+- Show nearby science targets
+- Show hazards
+- Display environmental information
+- Trigger science opportunity notifications
+
+Example:
+
+[SCIENCE OPPORTUNITY]
+
+"Interesting sedimentary formation detected 120m ahead."
+
+Buttons:
+
+"INVESTIGATE"
+"SKIP"
+
+This should make the demo visually impressive.
+
+==================================================
+16. PREVIOUS MISSION TRACKS
+==================================================
+
+Add a layer showing historical rover traverses.
+
+Example:
+
+Curiosity Traverse
+Perseverance Traverse
+
+When clicked:
+
+Show mission name
+Sol
+Location
+Observation
+Science activity
+
+Use animated lines to make previous rover paths visually understandable.
+
+==================================================
+17. DATA SOURCES
+==================================================
+
+Create a "DATA SOURCES" page.
+
+Explain that the platform is designed to integrate NASA and scientific datasets.
+
+Potential sources:
+
+NASA
+NASA Planetary Data System
+Mars Reconnaissance Orbiter / HiRISE
+Mars Odyssey
+Mars Express
+Curiosity
+Perseverance
+Other public planetary science datasets
+
+For every dataset, show:
+
+Source
+Data Type
+Mission
+How it helps Marswalk planning
+
+Do not claim that live integration exists unless it actually exists in the implementation.
+
+==================================================
+18. ABOUT PAGE
+==================================================
+
+Explain the problem:
+
+Future astronauts will need more than a basic map.
+
+They need:
+
+- Terrain information
+- Environmental conditions
+- Previous exploration data
+- Scientific opportunities
+- Hazards
+- Route planning
+
+Then explain the solution:
+
+"MARSWALK brings these datasets together into one mission-oriented interface."
+
+==================================================
+19. TECHNICAL IMPLEMENTATION
+==================================================
+
+Build the application with a modern frontend architecture.
+
+Preferred:
+
+React
+TypeScript
+Tailwind CSS
+Modern component architecture
+
+For map visualization use an appropriate interactive mapping/3D library.
+
+Possible technologies:
+
+MapLibre
+Leaflet
+Cesium
+Three.js
+
+Choose the most suitable option for a performant browser-based prototype.
+
+Structure the code cleanly so NASA APIs and real datasets can be connected later.
+
+Create reusable components:
+
+MarsMap
+LayerControl
+RoutePlanner
+MissionStats
+ScienceTarget
+HazardMarker
+EnvironmentPanel
+MissionAI
+MissionBrief
+MissionSimulation
+
+==================================================
+20. DATA ARCHITECTURE
+==================================================
+
+Use realistic structured mock data for the prototype if live APIs are unavailable.
+
+Example:
+
+{
+  mission: "Perseverance",
+  location: "Jezero Crater",
+  latitude: "...",
+  longitude: "...",
+  type: "rover",
+  observation: "...",
+  source: "NASA"
+}
+
+Keep the data architecture compatible with real NASA APIs.
+
+Add a clearly visible:
+
+"DATA SOURCE"
+
+indicator for information shown.
+
+==================================================
+21. UX DETAILS
+==================================================
+
+Add smooth animations:
+
+- Mars rotation
+- Map transitions
+- Route drawing
+- Panel transitions
+- Science marker pulse
+- Mission simulation movement
+- Data loading states
+
+Add tooltips.
+
+Add keyboard-friendly controls.
+
+Make the application fast and responsive.
+
+Avoid unnecessary animations that reduce usability.
+
+==================================================
+22. HACKATHON DEMO FLOW
+==================================================
+
+The application should support this demo story:
+
+STEP 1:
+User enters MARSWALK.
+
+STEP 2:
+Clicks "START MISSION".
+
+STEP 3:
+Mars map opens.
+
+STEP 4:
+User selects Jezero Crater.
+
+STEP 5:
+Turns on:
+
+Terrain
+Rover Data
+Geology
+Science Targets
+Hazards
+
+STEP 6:
+User selects destination.
+
+STEP 7:
+System generates 3 routes.
+
+STEP 8:
+User compares routes.
+
+STEP 9:
+System recommends Route B.
+
+STEP 10:
+User sees:
+
+Safety
+Science
+Terrain
+Environment
+Distance
+
+STEP 11:
+User adds science targets.
+
+STEP 12:
+User asks Mars Mission AI:
+
+"Why is Route B better?"
+
+STEP 13:
+AI explains the decision based on available data.
+
+STEP 14:
+User generates Mission Brief.
+
+STEP 15:
+User starts Marswalk simulation.
+
+This entire flow should take approximately 2–3 minutes for a hackathon presentation.
+
+==================================================
+23. IMPORTANT SCIENTIFIC INTEGRITY
+==================================================
+
+This is extremely important.
+
+Never fabricate NASA data and present it as real.
+
+Clearly distinguish:
+
+LIVE DATA
+LATEST AVAILABLE DATA
+HISTORICAL DATA
+PROTOTYPE / DEMO DATA
+
+Use NASA branding carefully.
+Do not imply that this project is an official NASA product.
+
+Where possible, provide source attribution and links to the original NASA dataset.
+
+==================================================
+24. FINAL DESIGN GOAL
+==================================================
+
+The final website should make the judge immediately understand:
+
+"Instead of looking at NASA Mars data separately, MARSWALK brings multiple datasets together and turns them into an actionable Marswalk planning system."
+
+The core message should be:
+
+SEE MARS
+↓
+UNDERSTAND MARS
+↓
+PLAN THE ROUTE
+↓
+IDENTIFY SCIENCE
+↓
+AVOID HAZARDS
+↓
+WALK MARS
+
+Make the final result feel like a realistic prototype of a future astronaut mission-planning system, not a normal educational website.
