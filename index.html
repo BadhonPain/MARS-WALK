@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MARSWALK | Plan the Walk. Discover the Unknown.</title>
+  <meta name="description" content="Futuristic NASA-inspired Mars mission planning platform. Integrate multi-mission Mars science datasets to plan safer extravehicular routes, identify scientific targets, and evaluate hazards.">
+  <meta name="keywords" content="Mars, NASA, Marswalk, Astronaut EVA, Jezero Crater, Mission Control, GIS, Planetary Science">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>">
+  
+  <!-- Modern Scientific & Futuristic Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Subtle CRT / Scanline Shader Layer -->
+  <div class="scanline-overlay"></div>
+
+  <!-- Main Top Navigation & Mission HUD -->
+  <header class="mission-header" id="main-header">
+    <div class="brand-container" id="brand-home-btn" title="Return to Mission Briefing Home">
+      <div class="brand-icon-wrapper">
+        <span class="brand-mars-glyph">🔴</span>
+        <div class="brand-beacon"></div>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">MARS<span>WALK</span> <span class="brand-badge">EVA-v2.4</span></div>
+        <div class="brand-tagline">Plan the Walk. Discover the Unknown.</div>
+      </div>
+    </div>
+
+    <!-- Center Nav Links -->
+    <nav>
+      <ul class="nav-links">
+        <li class="nav-item active" data-view="landing" id="nav-btn-home">Overview</li>
+        <li class="nav-item" data-view="planner" id="nav-btn-planner">Mission Planner</li>
+        <li class="nav-item" data-view="missions" id="nav-btn-missions">Previous Missions</li>
+        <li class="nav-item" data-view="sources" id="nav-btn-sources">Data Sources</li>
+        <li class="nav-item" data-view="about" id="nav-btn-about">About</li>
+      </ul>
+    </nav>
+
+    <!-- Telemetry HUD & Status Readouts -->
+    <div class="hud-telemetry">
+      <div class="telemetry-item">
+        <span class="telemetry-label">Mission Clock</span>
+        <span class="telemetry-value" id="hud-utc-time">--:--:-- UTC</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">Martian Sol</span>
+        <span class="telemetry-value" id="hud-sol-counter" style="color: var(--mars-orange);">SOL 421</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">Telemetry Link</span>
+        <span class="telemetry-value"><span class="status-dot online"></span> ONLINE</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">Dataset Stream</span>
+        <span class="telemetry-value" style="color: var(--cyan-telemetry);"><span class="status-dot amber"></span> PROTOTYPE</span>
+      </div>
+      <button class="sound-toggle-btn" id="sound-toggle" title="Toggle Mission Audio" aria-label="Toggle Mission Audio">🔊</button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       VIEW 1: HERO / LANDING PAGE (Phase 1 Centerpiece)
+       ========================================================================= -->
+  <main class="view-container active-view" id="view-landing">
+    <section class="hero-section">
+      <div class="hero-layout">
+        <!-- Hero Left Column: Narrative & Mission Directives -->
+        <div class="hero-content">
+          <div class="hero-classification-badge">
+            <span>●</span> NASA MARS EXPLORATION EVA SYSTEM
+          </div>
+          <h1 class="hero-headline">
+            THE FIRST MARSWALK <br>STARTS WITH <span class="highlight-mars">A MAP.</span>
+          </h1>
+          <p class="hero-subheading">
+            Integrate decades of NASA Mars exploration data to plan safer extravehicular routes, discover high-priority scientific opportunities, and prepare humanity for its first steps on the Red Planet.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn-tech" id="hero-start-mission-btn">
+              <span>🚀 START MISSION</span>
+            </button>
+            <button class="btn-secondary" id="hero-explore-mars-btn">
+              <span>🌐 EXPLORE MARS</span>
+            </button>
+          </div>
+
+          <div class="hero-metrics-strip">
+            <div class="hero-metric-box">
+              <span class="hero-metric-val">4.8 km</span>
+              <span class="hero-metric-lbl">Default Traverse</span>
+            </div>
+            <div class="hero-metric-box">
+              <span class="hero-metric-val">12</span>
+              <span class="hero-metric-lbl">Geospatial Layers</span>
+            </div>
+            <div class="hero-metric-box">
+              <span class="hero-metric-val">6</span>
+              <span class="hero-metric-lbl">Integrated Missions</span>
+            </div>
+            <div class="hero-metric-box">
+              <span class="hero-metric-val">87 / 100</span>
+              <span class="hero-metric-lbl">Mission Safety Score</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right Column: Interactive 3D Mars Globe -->
+        <div class="hero-globe-wrapper">
+          <div class="globe-hud-overlay">
+            <div class="globe-corner-tl"></div>
+            <div class="globe-corner-tr"></div>
+            <div class="globe-corner-bl"></div>
+            <div class="globe-corner-br"></div>
+            <div class="globe-telemetry-badge">MRO ORBITAL SURVEILLANCE // ACTIVE</div>
+            <div class="globe-rotation-hint">DRAG TO ROTATE PLANET</div>
+          </div>
+
+          <canvas id="mars-hero-canvas"></canvas>
+
+          <!-- Interactive site card popover -->
+          <div class="globe-site-card" id="globe-site-card">
+            <div class="globe-site-title" id="globe-site-title">Jezero Crater</div>
+            <div class="globe-site-coords" id="globe-site-coords">18.38°N, 77.58°E</div>
+            <p class="globe-site-desc" id="globe-site-desc">Perseverance Rover & Delta deposit exploration site.</p>
+            <button class="btn-tech btn-sm" id="globe-card-plan-btn" style="width: 100%; justify-content: center;">
+              TARGET SITE
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Capabilities Section: One Planet. Many Missions. One Integrated View -->
+      <div class="integrated-view-section">
+        <div class="section-header-centered">
+          <div class="section-tag">MULTI-MISSION DATA SYNTHESIS</div>
+          <h2 class="section-title">ONE PLANET. MANY MISSIONS. ONE INTEGRATED VIEW.</h2>
+        </div>
+
+        <div class="cards-grid">
+          <div class="science-card">
+            <div class="card-icon">🏔️</div>
+            <div class="card-title">Terrain & Elevation</div>
+            <div class="card-desc">High-precision digital elevation models from MOLA and HRSC for slope gradient and obstacle detection.</div>
+            <div class="card-tag">MOLA // HRSC DATA</div>
+          </div>
+
+          <div class="science-card">
+            <div class="card-icon">🛰️</div>
+            <div class="card-title">Orbital Imagery</div>
+            <div class="card-desc">Sub-meter orbital imagery from HiRISE and CTX showing meter-scale rocks, dunes, and escarpments.</div>
+            <div class="card-tag">MRO // HiRISE SENSORS</div>
+          </div>
+
+          <div class="science-card">
+            <div class="card-icon">🤖</div>
+            <div class="card-title">Rover Data</div>
+            <div class="card-desc">Decades of ground-truth traverses and rock abrasion records from Curiosity and Perseverance rovers.</div>
+            <div class="card-tag">SURFACE TELEMETRY</div>
+          </div>
+
+          <div class="science-card">
+            <div class="card-icon">💎</div>
+            <div class="card-title">Geology & Minerals</div>
+            <div class="card-desc">Spectroscopic mineral mapping identifying carbonates, clays, and hydrous silica indicative of past water.</div>
+            <div class="card-tag">CRISM // OMEGA SPECTRA</div>
+          </div>
+
+          <div class="science-card">
+            <div class="card-icon">🌪️</div>
+            <div class="card-title">Environmental Data</div>
+            <div class="card-desc">Atmospheric pressure, wind speeds, dust opacity, and cosmic radiation indices for astronaut safety.</div>
+            <div class="card-tag">MEDA // REMS MONITORING</div>
+          </div>
+
+          <div class="science-card">
+            <div class="card-icon">🎯</div>
+            <div class="card-title">Science Targets</div>
+            <div class="card-desc">Pre-mapped scientific sample sites to maximize scientific return per kilometer of astronaut walking.</div>
+            <div class="card-tag">ASTROBIOLOGY OPPORTUNITIES</div>
+          </div>
+        </div>
+
+        <!-- Hackathon Demo Story Launcher Banner -->
+        <div class="demo-flow-banner">
+          <div class="demo-flow-info">
+            <div class="demo-flow-title">
+              HACKATHON PRESENTATION FLOW <span>READY</span>
+            </div>
+            <div class="demo-flow-desc">
+              Experience the 15-step mission planning journey: Jezero Crater target → Multi-layer activation → 3 Route generation → Route B recommendation → AI mission consultation → EVA simulation.
+            </div>
+          </div>
+          <button class="btn-tech" id="start-demo-flow-btn">
+            LAUNCH DEMO FLOW ➔
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       VIEW 2: FULL-SCREEN MISSION PLANNER (Workspace Shell)
+       ========================================================================= -->
+  <div class="view-container" id="view-planner">
+    <div class="planner-grid-layout">
+      <!-- Left Sidebar: Multi-Tab Mission Controls -->
+      <aside class="planner-sidebar-left">
+        <div class="sidebar-tab-nav">
+          <button class="sidebar-tab-btn active" data-pane="layers">Layers</button>
+          <button class="sidebar-tab-btn" data-pane="routes">Routes</button>
+          <button class="sidebar-tab-btn" data-pane="environment">Env</button>
+        </div>
+
+        <div class="sidebar-tab-content">
+          <!-- Pane 1: Layers -->
+          <div class="tab-pane active" id="pane-layers">
+            <div id="layer-control-container"></div>
+          </div>
+
+          <!-- Pane 2: Routes -->
+          <div class="tab-pane" id="pane-routes">
+            <div id="route-planner-container"></div>
+          </div>
+
+          <!-- Pane 3: Environment -->
+          <div class="tab-pane" id="pane-environment">
+            <div class="panel-section-header">
+              <span>Atmospheric Telemetry</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="background: rgba(18, 26, 42, 0.7); padding: 10px; border-radius: 6px;">
+                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">SURFACE TEMPERATURE</div>
+                <div style="font-family: var(--font-display); font-size: 18px; color: var(--cyan-telemetry);">-63°C</div>
+              </div>
+              <div style="background: rgba(18, 26, 42, 0.7); padding: 10px; border-radius: 6px;">
+                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">WIND SPEED & VECTOR</div>
+                <div style="font-family: var(--font-display); font-size: 18px; color: #fff;">18 km/h NW</div>
+              </div>
+              <div style="background: rgba(18, 26, 42, 0.7); padding: 10px; border-radius: 6px;">
+                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">DUST OPTICAL DEPTH (TAU)</div>
+                <div style="font-family: var(--font-display); font-size: 18px; color: var(--safe-green);">0.42 (LOW)</div>
+              </div>
+              <div style="background: rgba(18, 26, 42, 0.7); padding: 10px; border-radius: 6px;">
+                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">SURFACE RADIATION EXPOSURE</div>
+                <div style="font-family: var(--font-display); font-size: 18px; color: var(--alert-amber);">MODERATE</div>
+              </div>
+              <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 8px;">
+                * Latest available observation: Sol 421 / 14:20 UTC (Prototype Data)
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center Map Viewport -->
+      <section class="planner-map-viewport">
+        <!-- Top HUD Floating Elements -->
+        <div class="map-hud-top-bar">
+          <div class="map-search-box">
+            <span>🔍</span>
+            <input type="text" id="map-search-input" value="Jezero Crater - Western Delta" placeholder="Search Mars coordinates or sites...">
+          </div>
+          <div class="map-coords-hud">
+            <span>LAT: 18.384° N</span>
+            <span>LON: 77.581° E</span>
+            <span>ELEV: -2,530 m</span>
+          </div>
+        </div>
+
+        <!-- Interactive Map Canvas Shell -->
+        <canvas id="mars-main-map-canvas"></canvas>
+
+        <!-- Dynamic Map Legend Overlay -->
+        <div id="map-legend-container" class="map-legend-overlay"></div>
+
+        <!-- Map Navigation Controls -->
+        <div class="map-zoom-controls">
+          <button class="map-ctrl-btn" id="map-zoom-in" title="Zoom In">+</button>
+          <button class="map-ctrl-btn" id="map-zoom-out" title="Zoom Out">−</button>
+          <button class="map-ctrl-btn" id="map-reset-view" title="Reset Jezero View" style="font-size: 12px;">🎯</button>
+        </div>
+      </section>
+
+      <!-- Right Sidebar: Contextual Inspector -->
+      <aside class="planner-sidebar-right">
+        <div class="panel-section-header">
+          <span>Target Inspector</span>
+          <span id="inspector-data-status" style="font-size: 10px; color: var(--safe-green);">VERIFIED DATA</span>
+        </div>
+
+        <div id="target-inspector-card">
+          <div style="background: rgba(18, 26, 42, 0.85); border-radius: 8px; padding: 14px; border: 1px solid var(--border-glass); margin-bottom: 14px;">
+            <div style="font-family: var(--font-display); font-size: 15px; color: var(--mars-orange); margin-bottom: 4px;">
+              Western Fan Delta
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-telemetry); margin-bottom: 10px;">
+              PRIMARY SCIENCE TARGET #07
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px;">
+              Ancient river delta deposits containing fine-grained clays and layered mudstones. Prime candidate for biosignature preservation and aqueous sedimentation.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 11px;">
+              <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                <span>PREVIOUS OBSERVER:</span>
+                <span style="color: #fff;">MRO HiRISE + Perseverance</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                <span>MINERALOGY:</span>
+                <span style="color: #fff;">Smectite Clay & Carbonate</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                <span>TERRAIN DIFFICULTY:</span>
+                <span style="color: var(--alert-amber);">Moderate (Grade 14%)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section-header">
+          <span>Mars Mission AI</span>
+        </div>
+        <div style="background: rgba(11, 15, 23, 0.8); border: 1px solid var(--border-tech); border-radius: 8px; padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-family: var(--font-mono); font-size: 10px; color: var(--cyan-telemetry);">
+            MISSION ADVISORY CONSOLE
+          </div>
+          <div style="font-size: 12px; color: var(--text-primary); background: rgba(56, 189, 248, 0.08); padding: 8px; border-radius: 6px; border-left: 2px solid var(--cyan-telemetry);">
+            "Route B recommended: Bypasses steep scarp slopes at Waypoint 2 while passing two high-priority sedimentary sample sites."
+          </div>
+          <div style="margin-top: auto; display: flex; flex-direction: column; gap: 4px;">
+            <button class="btn-secondary btn-sm" style="width: 100%; justify-content: flex-start;">
+              💬 "Why is Route B recommended?"
+            </button>
+            <button class="btn-secondary btn-sm" style="width: 100%; justify-content: flex-start;">
+              💬 "What are the major hazards?"
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Bottom HUD: Mission Summary Bar -->
+      <footer class="planner-bottom-summary">
+        <div class="summary-stats-group">
+          <div class="summary-stat-item">
+            <span class="summary-stat-lbl">Start</span>
+            <span class="summary-stat-val">Jezero Landing Base</span>
+          </div>
+          <div class="summary-stat-item">
+            <span class="summary-stat-lbl">Destination</span>
+            <span class="summary-stat-val">Ancient River Delta</span>
+          </div>
+          <div class="summary-stat-item">
+            <span class="summary-stat-lbl">Traverse Distance</span>
+            <span class="summary-stat-val">4.8 km</span>
+          </div>
+          <div class="summary-stat-item">
+            <span class="summary-stat-lbl">Estimated EVA Time</span>
+            <span class="summary-stat-val">3h 42m</span>
+          </div>
+          <div class="summary-stat-item">
+            <span class="summary-stat-lbl">Hazard Exposure</span>
+            <span class="summary-stat-val" style="color: var(--safe-green);">LOW</span>
+          </div>
+          <div class="summary-stat-item">
+            <span class="summary-stat-lbl">Science Targets</span>
+            <span class="summary-stat-val" style="color: var(--cyan-telemetry);">4 Sites</span>
+          </div>
+          <div class="summary-stat-item">
+            <span class="summary-stat-lbl">Mission Score</span>
+            <span class="summary-stat-val score">87 / 100</span>
+          </div>
+        </div>
+
+        <button class="btn-tech" id="summary-brief-btn">
+          📄 GENERATE MISSION BRIEF
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       VIEW 3: PREVIOUS MISSIONS ARCHIVE
+       ========================================================================= -->
+  <div class="view-container" id="view-missions">
+    <div class="content-page-container">
+      <div class="page-header">
+        <h1>NASA & INTERNATIONAL MARS MISSIONS</h1>
+        <p>Ground-truth exploration telemetry and orbital observations synthesized into the MARSWALK GIS core.</p>
+      </div>
+
+      <div class="missions-grid">
+        <div class="mission-card">
+          <div class="mission-card-top">
+            <div class="mission-name">PERSEVERANCE</div>
+            <div class="mission-type-badge">SURFACE ROVER</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            Exploring Jezero Crater's ancient lakebed and river delta. Collecting sealed core samples and testing in-situ oxygen production (MOXIE).
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-telemetry);">
+            Target: Jezero Crater (18.38°N, 77.58°E) • Active Sol 1400+
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-card-top">
+            <div class="mission-name">CURIOSITY</div>
+            <div class="mission-type-badge">SURFACE ROVER</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            Investigating the habitability of ancient Mars in Gale Crater, traversing sedimentary sulfate and clay-bearing strata of Mount Sharp.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-telemetry);">
+            Target: Gale Crater (4.59°S, 137.44°E) • Active Sol 4400+
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-card-top">
+            <div class="mission-name">MARS RECONNAISSANCE ORBITER</div>
+            <div class="mission-type-badge">ORBITAL IMAGER</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            HiRISE ultra-high-resolution imaging (25 cm/pixel) and CRISM mineral spectroscopy providing sub-meter obstacle detection.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-telemetry);">
+            Orbit: Sun-Synchronous Polar • Operational since 2006
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-card-top">
+            <div class="mission-name">MARS ODYSSEY</div>
+            <div class="mission-type-badge">THERMAL & GAMMA ORBITER</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            THEMIS infrared emission spectrometer identifying sub-surface thermal inertia, hydrogen/water-ice distribution, and rock abundance.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-telemetry);">
+            Orbit: Polar • Longest-surviving Mars spacecraft
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-card-top">
+            <div class="mission-name">MARS EXPRESS (ESA)</div>
+            <div class="mission-type-badge">RADAR & MINERAL SPECTRA</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            MARSIS sub-surface radar sounder and OMEGA spectrometer detecting sub-surface ice sheets and hydrated phyllosilicates.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-telemetry);">
+            Orbit: Elliptical Polar • Operational since 2003
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <div class="mission-card-top">
+            <div class="mission-name">MARS GLOBAL SURVEYOR</div>
+            <div class="mission-type-badge">TOPOGRAPHY & GRAVITY</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            MOLA (Mars Orbiter Laser Altimeter) generated the baseline global digital elevation model of Martian topography.
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--cyan-telemetry);">
+            Mission: Global Topography Baseline • Completed 2006
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       VIEW 4: DATA SOURCES & SCIENTIFIC INTEGRITY
+       ========================================================================= -->
+  <div class="view-container" id="view-sources">
+    <div class="content-page-container">
+      <div class="page-header">
+        <h1>DATA SOURCES & SCIENTIFIC INTEGRITY</h1>
+        <p>MARSWALK strictly distinguishes between verified planetary archives and prototype datasets.</p>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Dataset Source</th>
+            <th>Type</th>
+            <th>Original Mission</th>
+            <th>Application in Marswalk</th>
+            <th>Integration Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>MOLA Topographic Model</strong></td>
+            <td>Elevation / DEM</td>
+            <td>Mars Global Surveyor</td>
+            <td>Terrain difficulty score, slope angle calculation & EVA elevation profiles.</td>
+            <td><span class="source-status-badge verified">NASA Open Archive</span></td>
+          </tr>
+          <tr>
+            <td><strong>HiRISE High-Res Camera</strong></td>
+            <td>Optical Imagery (25cm)</td>
+            <td>Mars Reconnaissance Orbiter</td>
+            <td>Boulder detection, crater rim navigation, and terrain hazards.</td>
+            <td><span class="source-status-badge verified">NASA PDS Imaging</span></td>
+          </tr>
+          <tr>
+            <td><strong>CRISM & OMEGA</strong></td>
+            <td>Infrared Mineralogy</td>
+            <td>MRO / Mars Express</td>
+            <td>Water-altered clays, hydrated silica, and carbonate science targets.</td>
+            <td><span class="source-status-badge verified">Planetary Data System</span></td>
+          </tr>
+          <tr>
+            <td><strong>MEDA Environmental Station</strong></td>
+            <td>Atmospheric Telemetry</td>
+            <td>Perseverance Rover</td>
+            <td>Temperature, pressure, dust optical depth, and wind direction.</td>
+            <td><span class="source-status-badge prototype">Prototype Telemetry</span></td>
+          </tr>
+          <tr>
+            <td><strong>Perseverance Traverse Data</strong></td>
+            <td>GPS / Odometry Waypoints</td>
+            <td>Mars 2020 Perseverance</td>
+            <td>Verified rover path history and sample caching coordinates.</td>
+            <td><span class="source-status-badge verified">NASA Mars 2020 API</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       VIEW 5: ABOUT MARSWALK
+       ========================================================================= -->
+  <div class="view-container" id="view-about">
+    <div class="content-page-container">
+      <div class="page-header">
+        <h1>ABOUT MARSWALK</h1>
+        <p>The mission planning platform built for future Martian boots on the ground.</p>
+      </div>
+
+      <div style="background: var(--bg-card); padding: 28px; border-radius: 8px; border: 1px solid var(--border-glass); margin-bottom: 24px;">
+        <h2 style="font-family: var(--font-display); font-size: 20px; color: var(--mars-orange); margin-bottom: 12px;">
+          THE PROBLEM
+        </h2>
+        <p style="font-size: 14px; line-height: 1.7; color: var(--text-secondary);">
+          Decades of robotic Mars exploration have generated petabytes of planetary data across separate instruments, orbiters, and research teams. But future human astronauts executing an extravehicular walk cannot consult disconnected scientific papers or static maps. They need real-time, consolidated spatial intelligence combining terrain steepness, suit consumable budgets, solar radiation, and scientific sample return value.
+        </p>
+      </div>
+
+      <div style="background: var(--bg-card); padding: 28px; border-radius: 8px; border: 1px solid var(--border-glass); margin-bottom: 24px;">
+        <h2 style="font-family: var(--font-display); font-size: 20px; color: var(--cyan-telemetry); margin-bottom: 12px;">
+          THE MARSWALK SOLUTION
+        </h2>
+        <p style="font-size: 14px; line-height: 1.7; color: var(--text-secondary);">
+          MARSWALK fuses terrain, orbital imaging, environmental telemetry, and rover discoveries into one interactive tactical mission planner. It evaluates multiple paths using transparent, multi-factor scoring to recommend routes that minimize physical danger while maximizing scientific breakthrough.
+        </p>
+
+        <!-- 6 Step Progression Flow -->
+        <div class="about-flow-steps">
+          <div class="about-step">
+            <div class="about-step-number">1</div>
+            <div class="about-step-text">SEE MARS</div>
+          </div>
+          <div class="about-step-arrow">➔</div>
+          <div class="about-step-step about-step">
+            <div class="about-step-number">2</div>
+            <div class="about-step-text">UNDERSTAND</div>
+          </div>
+          <div class="about-step-arrow">➔</div>
+          <div class="about-step">
+            <div class="about-step-number">3</div>
+            <div class="about-step-text">PLAN ROUTE</div>
+          </div>
+          <div class="about-step-arrow">➔</div>
+          <div class="about-step">
+            <div class="about-step-number">4</div>
+            <div class="about-step-text">FIND SCIENCE</div>
+          </div>
+          <div class="about-step-arrow">➔</div>
+          <div class="about-step">
+            <div class="about-step-number">5</div>
+            <div class="about-step-text">AVOID HAZARDS</div>
+          </div>
+          <div class="about-step-arrow">➔</div>
+          <div class="about-step">
+            <div class="about-step-number" style="background: var(--safe-green);">6</div>
+            <div class="about-step-text" style="color: var(--safe-green);">WALK MARS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Script (ES Module) -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
